@@ -11,13 +11,21 @@ import io.micronaut.http.uri.UriBuilder
 
 @Validated
 @Controller("/autores")
-class CadastraAutorController(val autorRepository: AutorRepository) {
+class CadastraAutorController(val autorRepository: AutorRepository, val enderecoClient: EnderecoClient) {
 
     @Post
     @Transactional
     fun cadastra(@Body @Valid request: NovoAutorRequest): HttpResponse<Any> {
 
-        val autor = request.paraAutor()
+
+        val enderecoResponse = enderecoClient.consulta(request.cep)
+
+//        if (enderecoResponse.body() == null) {
+//            return HttpResponse.badRequest()
+//        }
+
+        val autor = request.paraAutor(enderecoResponse.body()!!)
+
         autorRepository.save(autor)
 
         val uri = UriBuilder.of("/autores/{id}").expand(mutableMapOf(Pair("id", autor.id)))
