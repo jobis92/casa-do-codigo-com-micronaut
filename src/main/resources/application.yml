@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: nossaCasaDoCodigo
+
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/autores?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=TRUE
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: jpamvelox21
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+jpa.default.properties.hibernate.hbm2ddl.auto: update
